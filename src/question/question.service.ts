@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+interface QuestionQuery {
+  areas?: string[];
+}
+
 interface QuestionParams {
   title: string;
   correct: number;
@@ -12,13 +16,19 @@ interface QuestionParams {
 export class QuestionService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getQuestions() {
-    const questions = await this.prismaService.question.findMany({});
+  async getQuestions(filters: QuestionQuery, limit?: number) {
+    const questions = await this.prismaService.question.findMany({
+      where: {
+        category: {
+          name: { in: filters.areas },
+        },
+      },
+      take: limit,
+    });
     return questions;
   }
 
   async deleteQuestion(id: number) {
-    console.log('delete question - ', id);
     return this.prismaService.question.delete({
       where: { id },
     });
@@ -30,8 +40,6 @@ export class QuestionService {
     categoryId,
     correct,
   }: QuestionParams) {
-    console.log('create question');
-
     return this.prismaService.question.create({
       data: {
         title,

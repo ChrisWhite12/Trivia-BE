@@ -4,8 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseArrayPipe,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 
@@ -14,8 +16,14 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Get()
-  getQuestions() {
-    return this.questionService.getQuestions();
+  getQuestions(
+    @Query('areas', ParseArrayPipe) areas?: string[],
+    @Query('limit', ParseIntPipe) limit?: number,
+  ) {
+    const filters = {
+      ...(areas?.length && { areas }),
+    };
+    return this.questionService.getQuestions(filters, limit);
   }
 
   @Delete(':id')

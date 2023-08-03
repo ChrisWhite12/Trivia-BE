@@ -20,56 +20,34 @@ async function main() {
     },
   });
 
-  const questions = await prisma.question.createMany({
+  await prisma.question.createMany({
     data: [
       {
         categoryId: movieCategories.id,
         correct: 1,
         title: 'What is a',
-        answers: [
-          'aaaaaaaaaaaa',
-          'ssssssssssssss',
-          'ddddddddddddd',
-          'wwwwwwwwwwwwwww',
-        ],
+        answers: ['a', 's', 'd', 'w'],
       },
       {
         categoryId: movieCategories.id,
         correct: 2,
         title: 'What is s',
-        answers: [
-          'aaaaaaaaaaaa',
-          'ssssssssssssss',
-          'ddddddddddddd',
-          'wwwwwwwwwwwwwww',
-        ],
+        answers: ['a', 's', 'd', 'w'],
       },
       {
         categoryId: historyCategory.id,
         correct: 3,
         title: 'What is d',
-        answers: [
-          'aaaaaaaaaaaa',
-          'ssssssssssssss',
-          'ddddddddddddd',
-          'wwwwwwwwwwwwwww',
-        ],
+        answers: ['a', 's', 'd', 'w'],
       },
       {
         categoryId: musicCategory.id,
         correct: 4,
         title: 'What is w',
-        answers: [
-          'aaaaaaaaaaaa',
-          'ssssssssssssss',
-          'ddddddddddddd',
-          'wwwwwwwwwwwwwww',
-        ],
+        answers: ['a', 's', 'd', 'w'],
       },
     ],
   });
-
-  console.log(questions.count, ' questions created');
 }
 
 main()
