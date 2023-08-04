@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
+import { CreateCategoryDto } from 'src/dto/category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -19,7 +20,7 @@ export class CategoryController {
   }
 
   @Post()
-  createCategory(@Body() body) {
+  createCategory(@Body() body: CreateCategoryDto) {
     return this.categoryService.createCategory(body);
   }
 
