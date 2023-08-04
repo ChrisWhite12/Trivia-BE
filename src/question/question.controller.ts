@@ -4,10 +4,9 @@ import {
   Delete,
   Get,
   Param,
-  ParseArrayPipe,
   ParseIntPipe,
   Post,
-  Query,
+  Put,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 
@@ -16,14 +15,20 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Get()
-  getQuestions(
-    @Query('areas', ParseArrayPipe) areas?: string[],
-    @Query('limit', ParseIntPipe) limit?: number,
-  ) {
-    const filters = {
-      ...(areas?.length && { areas }),
-    };
-    return this.questionService.getQuestions(filters, limit);
+  getQuestions() {
+    console.log('getting questions');
+    // @Query('areas', ParseArrayPipe) areas?: string[],
+    // @Query('limit', ParseIntPipe) limit?: number,
+    // const filters = {
+    //   ...(areas?.length && { areas }),
+    // };
+    return this.questionService.getQuestions();
+  }
+
+  @Get(':id')
+  getQuestion(@Param('id', ParseIntPipe) id: number) {
+    console.log('getting question');
+    return this.questionService.getQuestion(id);
   }
 
   @Delete(':id')
@@ -34,5 +39,10 @@ export class QuestionController {
   @Post()
   createQuestion(@Body() body) {
     return this.questionService.createQuestion(body);
+  }
+
+  @Put(':id')
+  updateQuestion(@Param('id', ParseIntPipe) id: number, @Body() body) {
+    return this.questionService.updateQuestion(id, body);
   }
 }
