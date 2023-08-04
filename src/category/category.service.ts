@@ -10,4 +10,21 @@ export class CategoryService {
 
     return questions;
   }
+
+  async createCategory({ name }) {
+    return this.prismaService.category.create({
+      data: { name },
+    });
+  }
+
+  async deleteCategory(id: number) {
+    await this.prismaService.question.deleteMany({
+      where: {
+        categoryId: id,
+      },
+    });
+    return this.prismaService.category.delete({
+      where: { id },
+    });
+  }
 }
